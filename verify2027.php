@@ -61,8 +61,18 @@ authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
 if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
-    die('verified correct person. TODO: now implement role setting');
-    /// TODO: finish verification
+
+?>
+    <h1>One more thing!</h1>
+    <p><strong>Is the name we have on file correct?</strong></p>
+    <p>This is the preferred name you set on your application</p>
+    <p>We do expect everyone in the server to use a name they might be known as at MIT; it's much better once you come to campus for CPW!</p>
+    <h2 id="usr_name"><?= getName($connection, $email) ?></h2>
+    <div id="buttons">
+        <a class="button" href="" id="btn_yes">Yes!</a></li>
+        <a class="button" href="" id="btn_no">No, let me correct it</a>
+    </div>
+<?php
 } else if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     $result = sendVerificationEmail($email);
     if ($result) {

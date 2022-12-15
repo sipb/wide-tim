@@ -14,7 +14,7 @@ function authenticate($val, $expectedHash, $description) {
     }
 }
 
-// TODO: use SMTP instead
+// TODO(colclark): use SMTP instead
 function sendEmail($recipient, $subject, $content) {
     return mail($recipient, $subject, $content);
 }
@@ -24,8 +24,25 @@ function sendVerificationEmail($email) {
     return sendEmail($email, 'Verify your email for 2027 Discord', $email_content);
 }
 
+/// Ideally, change it to use mysqli_prepare like so https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php
+/// Since I am already sanitizing the email it should not be vulnerable to SQL injection
+
 function isAdmit($connection, $email) {
     return mysqli_num_rows(mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"")) > 0;
+}
+
+function getName($connection, $email) {
+    $result = mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"");
+    if (!$result) {
+        die("email $email not found in the database!");
+    }
+    $result = $result->fetch_array();
+    return $result['name'];
+}
+
+function setName($connection, $email) {
+    // TODO: set name and timestamp
+    // maybe do the discord stuff here or when calling
 }
 
 function redirect($url) {
