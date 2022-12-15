@@ -18,7 +18,7 @@ $role = '1050870099667603466';
 // SQL stuff
 $connection = mysqli_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD, SQL_DB);
 
-require_once "php-discord-sdk/support/sdk-discord.php";
+require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
