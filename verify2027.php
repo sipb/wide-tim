@@ -59,19 +59,21 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
-if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
+if (isset($_REQUEST['name'])) {
+    die('we have the name ' . $_REQUEST['name'] . ' and everything else we need to verify. TODO: finish the code');
+} else if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
 
 ?>
     <h1>One more thing!</h1>
     <p><strong>Is the name we have on file correct?</strong></p>
-    <p>This is the preferred name you set on your application</p>
+    <p>This is the preferred name you set on your application.</p>
     <p>We do expect everyone in the server to use a name they might be known as at MIT; it's much better once you come to campus for CPW!</p>
-    <h2 id="usr_name"><?= getName($connection, $email) ?></h2>
-    <div id="buttons">
-        <a class="button" href="" id="btn_yes">Yes!</a></li>
-        <a class="button" href="" id="btn_no">No, let me correct it</a>
-    </div>
+    <p>Once you confirm your name, your Discord name on the server will be set to it.</p>
+    <form method="post">
+        <input type="text" id="name" value="<?= getName($connection, $email) ?>">
+        <button class="button singlebutton" id="btn_yes" value="Finish verification">
+    </form>
 <?php
 } else if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     $result = sendVerificationEmail($email);
