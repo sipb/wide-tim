@@ -1,0 +1,25 @@
+{
+  "name": "wide-tim",
+  "version": "1.0.0",
+  "description": "Wide Tim Discord bot",
+  "main": "bot.js",
+  "scripts": {
+    "compile": "npx tsc",
+    "start": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sipb/wide-tim.git"
+  },
+  "author": "SIPB-Discord",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sipb/wide-tim/issues"
+  },
+  "homepage": "https://github.com/sipb/wide-tim#readme",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "js-sha256": "^0.9.0",
+    "typescript": "^4.9.4"
+  }
+}
