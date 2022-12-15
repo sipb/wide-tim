@@ -22,9 +22,10 @@ require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
-// Validate email address if given (don't trust the client)
+/// Validate email address if given (don't trust the client)
+/// TODO: check if not adMIT here too
 if (isset($_REQUEST['email']) && !filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-    redirect("https://discord2027.mit.edu/$_SERVER[REQUEST_URI]&email_invalid=true");
+    redirect("https://discord2027.mit.edu/$_SERVER[REQUEST_URI]&email=".$_REQUEST['email']."&email_invalid=true");
 }
 
 ?>
@@ -53,10 +54,17 @@ authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 if (isset($_REQUEST['emailauth'])) {
     authenticate($_REQUEST['email'], $_REQUEST['emailauth'], 'E-mail');
     die('verified correct person. TODO: now implement role setting');
-} else if (isset($_REQUEST['email'])) {
-    $result = sendVerificationEmail($_REQUEST['email']);
+    /// TODO: before giving the role, check if adMIT again and save to database!
+} else if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid'])) {
+    /// TODO: check that email is adMIT!!!! Very important!
+    $email = $_REQUEST['email'];
+    $result = sendVerificationEmail($email);
     if ($result) {
-        die('verification email has been sent, pls check your email. TODO: improve this page.');
+?>
+    <p>Verification email has been sent to <?= $email ?>. It may take a few moments to arrive (or end up in spam).</p>
+
+<?php
+        die("verification email has been sent to $email (may take a few moments to arrive), pls check your email. TODO: improve this page.");
     } else {
         die('There was an error sending the verification email. Please report this to 2027discordadmin@mit.edu');
     }
@@ -65,9 +73,9 @@ if (isset($_REQUEST['emailauth'])) {
     <h1>2027 Discord verification</h1>
         <form method="post">
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
-        <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again!</p>' : '' ?>
+        <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again! Check for any typos, and make sure you are using the same email as your MIT Admissions portal.</p>' : '' ?>
         <label for="email">Email:</label>
-        <input name="email" type="email" required <?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?> />
+        <input name="email" type="email" required <?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?> >
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
     </form>
