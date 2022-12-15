@@ -1,3 +1,6 @@
 [submodule "php-discord-sdk"]
 	path = php-discord-sdk
 	url = https://github.com/cubiclesoft/php-discord-sdk
+[submodule "PHPMailer"]
+	path = PHPMailer
+	url = https://github.com/PHPMailer/PHPMailer

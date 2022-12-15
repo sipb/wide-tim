@@ -14,9 +14,33 @@ function authenticate($val, $expectedHash, $description) {
     }
 }
 
-// TODO: use SMTP instead
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "PHPMailer/src/Exception.php";
+require_once "PHPMailer/src/PHPMailer.php";
+require_once "PHPMailer/src/SMTP.php";
+
 function sendEmail($recipient, $subject, $content) {
-    return mail($recipient, $subject, $content);
+  $mail = new PHPMailer(true);
+  try {
+    // Setup Mailer
+    $mail->isSMTP();
+    $mail->Host = 'outgoing.mit.edu';
+    $mail->SMTPAuth = false;
+    $mail->Port = 25;
+    // Add Details
+    $mail->setFrom('2027discordadmin@mit.edu', 'Wide Tim');
+    $mail->addAddress($recipient);
+    $mail->isHTML(false);
+    $mail->Subject = $subject;
+    $mail->Body = $content;
+    $mail->AltBody = $content;
+    // Send It
+    $mail->send();
+  } catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+  }
 }
 
 function sendVerificationEmail($email) {
