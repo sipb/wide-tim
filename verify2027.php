@@ -71,7 +71,8 @@ if (isset($_REQUEST['name'])) {
     <p>We do expect everyone in the server to use a name they might be known as at MIT; it's much better once you come to campus for CPW!</p>
     <p>Once you confirm your name, your Discord name on the server will be set to it.</p>
     <form method="post">
-        <input type="text" id="name" value="<?= getName($connection, $email) ?>">
+        <input type="text" id="name" required name="name" value="<?= getName($connection, $email) ?>">
+        <br>
         <input class="button singlebutton" type="submit" id="btn_yes" value="Finish verification">
     </form>
 <?php
