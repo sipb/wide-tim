@@ -36,6 +36,11 @@ if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     }
 }
 
+/// Do user/pass authentication
+if (isset($email) && isset($_REQUEST['password'])) {
+    die('username and password were provided, TODO implement redirection here');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +97,13 @@ if (isset($_REQUEST['name'])) {
     <details>
         <summary>Click to login with password</summary>
         <form method="post">
-            <p>TODO: implement this</p>
+            <label for="email">Email:</label>
+            <input name="email" type="email" required value="<?= $email ?>">
+            <br>
+            <label for="password">Password:</label>
+            <input name="password" type="password" required>
+            <br>
+            <input class="button singlebutton" type="submit" value="Login"> 
         </form>
     </details>
 <?php

@@ -21,15 +21,17 @@ a {
     color: #7289da;
 }
 
-ul form {
+ul form details {
     background-color: #2c2f33;
     border-radius: 15px;
     padding: 20px;
-    padding-left: 30px;
 }
 
-#usr_name {
+#name {
     text-align: center;
+    border-radius: 4px;
+    padding: 16px;
+    width: 25vw;
 }
 
 .button {
