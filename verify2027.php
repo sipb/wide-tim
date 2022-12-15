@@ -22,10 +22,9 @@ require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
-/// POST overrides GET in here (TODO: think of a better solution to patch the bug)
 if (isset($_REQUEST['email'])) {
     global $email;
-    $email = isset($_POST['email']) ? $_POST['email'] : $_GET['email'];
+    $email = $_REQUEST['email'];
 }
 
 /// Validate email address if given (don't trust the client)
@@ -33,7 +32,7 @@ if (isset($_REQUEST['email'])) {
 if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     /// This should not be vulnerable because PHP is short-circuited
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !isAdmit($connection, $email)) {
-        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=$email&email_invalid=true");
+        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email_invalid=true");
     }
 }
 
@@ -80,7 +79,7 @@ if (isset($_REQUEST['emailauth'])) {
     <p>If email verification didn't work, you can try your application portal username and password too:</p>
     <details>
         <summary>Click to login with password</summary>
-        <form>
+        <form method="post">
             <p>TODO: implement this</p>
         </form>
     </details>
@@ -88,11 +87,13 @@ if (isset($_REQUEST['emailauth'])) {
 } else {
 ?>
     <h1>2027 Discord verification</h1>
-        <form method="post">
+        <form method="get">
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
         <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again! Check for any typos, and make sure you are using the same email as your MIT Admissions portal.</p>' : '' ?>
         <label for="email">Email:</label>
-        <input name="email" type="email" required value="<?= isset($email) ? $email : '' ?>" >
+        <input name="email" type="email" required value="<?= isset($email) ? $email : '' ?>">
+        <input type="hidden" id="id" name="id" value="<?= isset($_REQUEST['id']) ? $_REQUEST['id'] : '' ?>">
+        <input type="hidden" id="auth" name="auth" value="<?= isset($_REQUEST['auth']) ? $_REQUEST['auth'] : '' ?>">
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
     </form>
