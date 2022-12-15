@@ -22,12 +22,17 @@ require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
+/// POST overrides GET in here (TODO: think of a better solution to patch the bug)
+if (isset($_REQUEST['email'])) {
+    global $email;
+    $email = isset($_POST['email']) ? $_POST['email'] : $_GET['email'];
+}
+
 /// Validate email address if given (don't trust the client)
 /// Check if given email is adMIT
-if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid'])) {
+if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     /// This should not be vulnerable because PHP is short-circuited
-    if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) || !isAdmit($connection, $_REQUEST['email'])) {
-        $email = isset($_POST['email']) ? $_POST['email'] : $_GET['email'];
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !isAdmit($connection, $email)) {
         redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=$email&email_invalid=true");
     }
 }
@@ -56,22 +61,30 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
 if (isset($_REQUEST['emailauth'])) {
-    authenticate($_REQUEST['email'], $_REQUEST['emailauth'], 'E-mail');
+    authenticate($email, $_REQUEST['emailauth'], 'E-mail');
     die('verified correct person. TODO: now implement role setting');
     /// TODO: before giving the role, check if adMIT again and save to database!
-} else if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid'])) {
+} else if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     /// TODO: check that email is adMIT!!!! Very important!
-    $email = $_REQUEST['email'];
     $result = sendVerificationEmail($email);
     if ($result) {
 ?>
     <p>Verification email has been sent to <?= $email ?>. It may take a few moments to arrive (or end up in spam).</p>
-
 <?php
-        die("verification email has been sent to $email (may take a few moments to arrive), pls check your email. TODO: improve this page.");
     } else {
-        die('There was an error sending the verification email. Please report this to 2027discordadmin@mit.edu');
+?>
+    <p class="error">There was an error sending the verification email. Please report this to 2027discordadmin@mit.edu</p>
+<?php
     }
+?>
+    <p>If email verification didn't work, you can try your application portal username and password too:</p>
+    <details>
+        <summary>Click to login with password</summary>
+        <form>
+            <p>TODO: implement this</p>
+        </form>
+    </details>
+<?php
 } else {
 ?>
     <h1>2027 Discord verification</h1>
@@ -79,7 +92,7 @@ if (isset($_REQUEST['emailauth'])) {
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
         <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again! Check for any typos, and make sure you are using the same email as your MIT Admissions portal.</p>' : '' ?>
         <label for="email">Email:</label>
-        <input name="email" type="email" required value="<?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?>" >
+        <input name="email" type="email" required value="<?= isset($email) ? $email : '' ?>" >
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
     </form>
