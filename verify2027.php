@@ -61,7 +61,7 @@ $authenticated = false;
 if (isset($_REQUEST['emailauth'])) {
     authenticate($_REQUEST['email'], $_REQUEST['emailauth'], 'E-mail');
 } else {
-    die(<<<EOM
+    $html = <<< EOM
     <h1>2027 Discord verification</h1>
         <form method="post">
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
@@ -70,7 +70,8 @@ if (isset($_REQUEST['emailauth'])) {
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
     </form>
-    EOM);
+EOM;
+    die($html);
 }
 
 ?>
