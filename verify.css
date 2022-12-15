@@ -1,11 +1,9 @@
 body {
-    background: #23272a;
-    background-image: url(https://media.discordapp.net/attachments/1049418350373118063/1052670223238574080/MIT_Pixel_BG.png);
+    background: url(https://media.discordapp.net/attachments/1049418350373118063/1052670223238574080/MIT_Pixel_BG.png) url(https://media.discordapp.net/attachments/1049418350373118063/1052670223238574080/MIT_Pixel_BG.png) no-repeat center center fixed;
     color: #ffffff;
     font-family: 'Noto Sans', sans-serif;
     margin: 0;
     padding: 0;
-    /*background-size: cover;*/
 }
 
 #main {
