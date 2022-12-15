@@ -18,4 +18,9 @@ function sendEmail($recipient, $subject, $content) {
     return mail($recipient, $subject, $content);
 }
 
+function redirect($url) {
+    header("Location: $url");
+    die();
+}
+
 ?>

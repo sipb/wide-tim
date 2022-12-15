@@ -22,6 +22,11 @@ require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
+// Validate email address if given
+if (isset($_REQUEST['email']) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    redirect("https://discord2027.mit.edu/$_SERVER[REQUEST_URI]&email_invalid=true");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -60,30 +65,22 @@ $authenticated = false;
 
 if (isset($_REQUEST['emailauth'])) {
     authenticate($_REQUEST['email'], $_REQUEST['emailauth'], 'E-mail');
+} else if (isset($_REQUEST['email'])) {
+    die("Email given! TODO: implement");
 } else {
-    $html = <<< EOM
+?>
     <h1>2027 Discord verification</h1>
         <form method="post">
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
         <label for="email">Email:</label>
-        <input name="email" type="email" required>
+        <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again!</p>' : '' ?>
+        <input name="email" type="email" required <?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?> />
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
     </form>
-EOM;
-    die($html);
+<?php
 }
-
 ?>
-        <h1>One more thing!</h1>
-        <p>Is the name we have on file correct?</p>
-        <h2 id="usr_name">Tim A Beaver</h2> <!--TODO: make dynamic-->
-        <div id="buttons">
-            <a class="button" href="" id="btn_yes">Yes!</a></li> <!--TODO: add link-->
-            <a class="button" href="" id="btn_no">No, let me correct it</a> <!--TODO: add link-->
-        </div>
     </div>
 </body>
 </html>
-
-
