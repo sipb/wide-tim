@@ -21,7 +21,7 @@ a {
     color: #7289da;
 }
 
-ul form details #subthing {
+ul form details {
     background-color: #2c2f33;
     border-radius: 15px;
     padding: 20px;
@@ -69,4 +69,10 @@ ul form details #subthing {
 
 .error {
     color: orange;
+}
+
+#subthing {
+    background-color: #2c2f33;
+    border-radius: 15px;
+    padding: 20px;
 }
