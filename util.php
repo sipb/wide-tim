@@ -89,6 +89,13 @@ function post($url, $args) {
 	return file_get_contents($url, false, $context);
 }
 
+/// Polyfill
+/// https://www.php.net/manual/en/function.str-contains.php
+if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle) {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
+}
 
 
 ?>
