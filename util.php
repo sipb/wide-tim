@@ -13,4 +13,9 @@ function post($url, $args) {
 	return file_get_contents($url, false, $context);
 }
 
+// TODO: use SMTP instead
+function sendEmail($recipient, $subject, $content) {
+    return mail($recipient, $subject, $content);
+}
+
 ?>

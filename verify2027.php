@@ -39,23 +39,39 @@ $discord->SetAccessInfo("Bot", TOKEN);
 
 /// Check for kerb
 if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
-    die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.');
+    die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.<br>If you need help, email 2027discordadmin@mit.edu');
 }
 
-function authenticate($val, $description) {
+function authenticate($val, $expectedHash, $description) {
     $toHash = PEPPER.":$val";
     $hash = hash('sha256', $toHash);
     if (!isset($_REQUEST['auth'])) {
         die('Error: Missing parameter in URL!');
     }
-    $expectedHash = $_REQUEST['auth'];
     if ($hash !== $expectedHash) {
         die("Error: $description validation failed! Did you tamper with the URL?");
     }
 }
 
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
-authenticate(intval($_REQUEST['id']), 'Discord');
+authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
+
+$authenticated = false;
+
+if (isset($_REQUEST['emailauth'])) {
+    authenticate($_REQUEST['email'], $_REQUEST['emailauth'], 'E-mail');
+} else {
+    die(<<<EOM
+    <h1>2027 Discord verification</h1>
+        <form method="post">
+        <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
+        <label for="email">Email:</label>
+        <input name="email" type="email" required>
+        <br>
+        <input class="button singlebutton" type="submit" value="Continue"> 
+    </form>
+    EOM);
+}
 
 ?>
         <h1>One more thing!</h1>
