@@ -15,10 +15,6 @@ require "util.php";
 $server = '1049418013323055124';
 $role = '1050870099667603466';
 
-if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
-    print('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.');
-}
-
 // SQL stuff
 $connection = mysqli_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD, SQL_DB);
 
@@ -41,17 +37,25 @@ $discord->SetAccessInfo("Bot", TOKEN);
 
 <?php
 
+/// Check for kerb
+if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
+    die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.');
+}
+
+function authenticate($val, $description) {
+    $toHash = PEPPER.":$val";
+    $hash = hash('sha256', $toHash);
+    if (!isset($_REQUEST['auth'])) {
+        die('Error: Missing parameter in URL!');
+    }
+    $expectedHash = $_REQUEST['auth'];
+    if ($hash !== $expectedHash) {
+        die("Error: $description validation failed! Did you tamper with the URL?");
+    }
+}
+
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
-$member = intval($_REQUEST['id']);
-$toHash = PEPPER.":$member";
-$hash = hash('sha256', $toHash);
-if (!isset($_REQUEST['auth'])) {
-	die('Internal error: No auth!');
-}
-$expectedHash = $_REQUEST['auth'];
-if ($hash !== $expectedHash) {
-	die('Internal error: Could not verify that you own the Discord account you\'re trying to verify!');
-}
+authenticate(intval($_REQUEST['id']), 'Discord');
 
 ?>
         <h1>One more thing!</h1>
