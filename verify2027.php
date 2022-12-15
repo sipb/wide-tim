@@ -38,7 +38,11 @@ if (isset($email) && !isset($_REQUEST['email_invalid'])) {
 
 /// Do user/pass authentication
 if (isset($email) && isset($_REQUEST['password'])) {
-    die('username and password were provided, TODO implement redirection here');
+    $result = post(SLATE_REST_URL, array(
+        'user' => $email,
+        'password' => $_REQUEST['password'],
+    ));
+    die($result);
 }
 
 ?>
