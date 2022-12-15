@@ -79,16 +79,16 @@ authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 if (isset($_REQUEST['name'])) {
     // TODO: check that this all works fine. it's the most crucial part of everything
     $name = $_REQUEST['name'];
-    $discord = $_REQUEST['id'];
+    $id = $_REQUEST['id'];
     if (hasDiscordAccount($connection, $email)) {
         die('You already have a Discord account associated with this email address. Please contact staff at 2027discordadmin@mit.edu or DM TO CONTACT STAFF to fix this.');
     }
-    updateRecord($connection, $email, $_REQUEST['name'], $discord);
-    $discord->RunAPI("PUT", "guilds/$server/members/$discord/roles/$role", array(), array(), 204);
+    updateRecord($connection, $email, $_REQUEST['name'], $id);
+    $discord->RunAPI("PUT", "guilds/$server/members/$id/roles/$role", array(), array(), 204);
     echo "<p>You have been given the adMIT role!</p>";
     // TODO: check nickname setting works
     // https://discord.com/developers/docs/resources/guild#modify-current-member perhaps
-    $discord->RunAPI("PATCH", "guilds/$server;/members/$discord/nick/$role", array(), array(), 204);
+    $discord->RunAPI("PATCH", "guilds/$server;/members/$id/nick/$role", array(), array(), 204);
 } else if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
 
