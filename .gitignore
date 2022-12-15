@@ -3,4 +3,5 @@ node_modules
 token.txt
 token.ts
 pepper.ts
+pepper.txt
 *.js
