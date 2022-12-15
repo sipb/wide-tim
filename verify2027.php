@@ -8,9 +8,6 @@ error_reporting(E_ALL);
 /// Constants
 require "constants.php";
 
-/// Utility functions
-require "util.php";
-
 /// Hardcoded for now
 $server = '1049418013323055124';
 $role = '1050870099667603466';
@@ -18,14 +15,20 @@ $role = '1050870099667603466';
 // SQL stuff
 $connection = mysqli_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD, SQL_DB);
 
+/// Utility functions
+require "util.php";
+
 require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
 /// Validate email address if given (don't trust the client)
-/// TODO: check if not adMIT here too
-if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid']) && !filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-    redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=".$_REQUEST['email']."&email_invalid=true");
+/// Check if given email is adMIT
+if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid'])) {
+    /// This should not be vulnerable because PHP is short-circuited
+    if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) || !isAdmit($connection, $_REQUEST['email'])) {
+        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=".$_REQUEST['email']."&email_invalid=true");
+    }
 }
 
 ?>

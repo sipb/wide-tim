@@ -24,6 +24,10 @@ function sendVerificationEmail($email) {
     return sendEmail($email, 'Verify your email for 2027 Discord', $email_content);
 }
 
+function isAdmit($connection, $email) {
+    return mysqli_num_rows(mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"")) > 0;
+}
+
 function redirect($url) {
     header("Location: $url");
     die();
@@ -41,6 +45,7 @@ function post($url, $args) {
 	$context = stream_context_create($opts);
 	return file_get_contents($url, false, $context);
 }
+
 
 
 ?>
