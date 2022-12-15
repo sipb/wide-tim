@@ -36,6 +36,15 @@ if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     }
 }
 
+/// Do user/pass authentication
+if (isset($email) && isset($_REQUEST['password'])) {
+    $result = post(SLATE_REST_URL, array(
+        'user' => $email,
+        'password' => $_REQUEST['password'],
+    ));
+    die($result);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -59,10 +68,22 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
-if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
+if (isset($_REQUEST['name'])) {
+    die('we have the name ' . $_REQUEST['name'] . ' and everything else we need to verify. TODO: finish the code');
+} else if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
-    die('verified correct person. TODO: now implement role setting');
-    /// TODO: finish verification
+
+?>
+    <h1>One more thing!</h1>
+    <p><strong>Is the name we have on file correct?</strong></p>
+    <p>This is the preferred name you set on your application.</p>
+    <p>We do expect everyone in the server to use a name they might be known as at MIT; it's much better once you come to campus for CPW!</p>
+    <p>Once you confirm your name, your Discord name on the server will be set to it.</p>
+    <form method="post">
+        <input type="text" id="name" required name="name" value="<?= getName($connection, $email) ?>">
+        <input class="button singlebutton" type="submit" id="btn_yes" value="Finish verification">
+    </form>
+<?php
 } else if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     $result = sendVerificationEmail($email);
     if ($result) {
@@ -76,12 +97,18 @@ if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     }
 ?>
     <p>If email verification didn't work, you can try your application portal username and password too:</p>
-    <details>
-        <summary>Click to login with password</summary>
-        <form method="post">
-            <p>TODO: implement this</p>
-        </form>
-    </details>
+    <form method="post">
+        <details id="subthing">
+            <summary>Click to login with password</summary>
+            <label for="email">Email:</label>
+            <input name="email" type="email" required value="<?= $email ?>">
+            <br>
+            <label for="password">Password:</label>
+            <input name="password" type="password" required>
+            <br>
+            <input class="button singlebutton" type="submit" value="Login"> 
+        </details>
+    </form>
 <?php
 } else {
 ?>
