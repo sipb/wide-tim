@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 /// Constants
 require "constants.php";
 
-/// Utilities (sending POST requests for now)
+/// Utility functions
 require "util.php";
 
 /// Hardcoded for now
@@ -22,7 +22,7 @@ require_once "php-discord-sdk/support/sdk_discord.php";
 $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
-// Validate email address if given
+// Validate email address if given (don't trust the client)
 if (isset($_REQUEST['email']) && !filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
     redirect("https://discord2027.mit.edu/$_SERVER[REQUEST_URI]&email_invalid=true");
 }
@@ -47,33 +47,26 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
     die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.<br>If you need help, email 2027discordadmin@mit.edu');
 }
 
-function authenticate($val, $expectedHash, $description) {
-    $toHash = PEPPER.":$val";
-    $hash = hash('sha256', $toHash);
-    if (!isset($_REQUEST['auth'])) {
-        die('Error: Missing parameter in URL!');
-    }
-    if ($hash !== $expectedHash) {
-        die("Error: $description validation failed! Did you tamper with the URL?");
-    }
-}
-
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
-$authenticated = false;
-
 if (isset($_REQUEST['emailauth'])) {
     authenticate($_REQUEST['email'], $_REQUEST['emailauth'], 'E-mail');
+    die('verified correct person. TODO: now implement role setting');
 } else if (isset($_REQUEST['email'])) {
-    die("Email given! TODO: implement");
+    $result = sendVerificationEmail($_REQUEST['email']);
+    if ($result) {
+        die('verification email has been sent, pls check your email. TODO: improve this page.');
+    } else {
+        die('There was an error sending the verification email. Please report this to 2027discordadmin@mit.edu');
+    }
 } else {
 ?>
     <h1>2027 Discord verification</h1>
         <form method="post">
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
-        <label for="email">Email:</label>
         <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again!</p>' : '' ?>
+        <label for="email">Email:</label>
         <input name="email" type="email" required <?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?> />
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
