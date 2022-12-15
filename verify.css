@@ -21,17 +21,15 @@ a {
     color: #7289da;
 }
 
-ul form details {
+ul form {
     background-color: #2c2f33;
     border-radius: 15px;
     padding: 20px;
+    padding-left: 30px;
 }
 
-#name {
+#usr_name {
     text-align: center;
-    border-radius: 4px;
-    padding: 16px;
-    width: 25vw;
 }
 
 .button {
@@ -66,9 +64,17 @@ ul form details {
 .button:hover {
     box-shadow: 0 0 5px;
 }
-
+#name {
+    border-radius: 4px;
+    padding: 16px;
+    width: 200px;
+}
 .error {
     color: orange;
+}
+
+h5 {
+    color: #BEBEBE;
 }
 
 #subthing {
