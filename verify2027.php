@@ -59,12 +59,11 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
-if (isset($_REQUEST['emailauth'])) {
+if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
     die('verified correct person. TODO: now implement role setting');
-    /// TODO: before giving the role, check if adMIT again and save to database!
+    /// TODO: finish verification
 } else if (isset($email) && !isset($_REQUEST['email_invalid'])) {
-    /// TODO: check that email is adMIT!!!! Very important!
     $result = sendVerificationEmail($email);
     if ($result) {
 ?>
