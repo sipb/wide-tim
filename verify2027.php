@@ -27,7 +27,8 @@ $discord->SetAccessInfo("Bot", TOKEN);
 if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid'])) {
     /// This should not be vulnerable because PHP is short-circuited
     if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) || !isAdmit($connection, $_REQUEST['email'])) {
-        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=".$_REQUEST['email']."&email_invalid=true");
+        $email = isset($_POST['email']) ? $_POST['email'] : $_GET['email'];
+        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=$email&email_invalid=true");
     }
 }
 
