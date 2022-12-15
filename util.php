@@ -46,8 +46,8 @@ function sendEmail($recipient, $subject, $content) {
 }
 
 function sendVerificationEmail($email) {
-    $email_content = "Hello!\n\nTo verify your email address, please click on the following link:\n\nhttps://discord2027.mit.edu$_SERVER[REQUEST_URI]&emailauth=" . hashify($email) . "\n\nBest,\nWide Tim";
-    return sendEmail($email, 'Verify your email for 2027 Discord', $email_content);
+  $email_content = "Hello!<br/><br/>To verify your email address, please click on the following link:<br/><br/>https://discord2027.mit.edu$_SERVER[REQUEST_URI]&emailauth=" . hashify($email) . "<br/><br/>Best,<br/>Wide Tim";
+  return sendEmail($email, 'Verify your email for 2027 Discord', $email_content);
 }
 
 /// Ideally, change it to use mysqli_prepare like so https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php
