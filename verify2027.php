@@ -75,7 +75,7 @@ if (isset($_REQUEST['emailauth'])) {
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
         <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again! Check for any typos, and make sure you are using the same email as your MIT Admissions portal.</p>' : '' ?>
         <label for="email">Email:</label>
-        <input name="email" type="email" required <?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?> >
+        <input name="email" type="email" required value="<?= isset($_REQUEST['email']) ? $_REQUEST['email'] : '' ?>" >
         <br>
         <input class="button singlebutton" type="submit" value="Continue"> 
     </form>
