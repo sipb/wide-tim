@@ -24,8 +24,8 @@ $discord->SetAccessInfo("Bot", TOKEN);
 
 /// Validate email address if given (don't trust the client)
 /// TODO: check if not adMIT here too
-if (isset($_REQUEST['email']) && !filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-    redirect("https://discord2027.mit.edu/$_SERVER[REQUEST_URI]&email=".$_REQUEST['email']."&email_invalid=true");
+if (isset($_REQUEST['email']) && !isset($_REQUEST['email_invalid']) && !filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
+    redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=".$_REQUEST['email']."&email_invalid=true");
 }
 
 ?>
