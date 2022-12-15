@@ -93,8 +93,8 @@ if (isset($_REQUEST['name'])) {
     }
 ?>
     <p>If email verification didn't work, you can try your application portal username and password too:</p>
-    <form method="post" id="subthing">
-        <details>
+    <form method="post">
+        <details id="subthing">
             <summary>Click to login with password</summary>
             <label for="email">Email:</label>
             <input name="email" type="email" required value="<?= $email ?>">
