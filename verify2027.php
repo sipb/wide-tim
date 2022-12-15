@@ -23,7 +23,7 @@ $discord = new DiscordSDK();
 $discord->SetAccessInfo("Bot", TOKEN);
 
 // Validate email address if given
-if (isset($_REQUEST['email']) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (isset($_REQUEST['email']) && !filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
     redirect("https://discord2027.mit.edu/$_SERVER[REQUEST_URI]&email_invalid=true");
 }
 
