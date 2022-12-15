@@ -66,9 +66,21 @@ function getName($connection, $email) {
     return $result['name'];
 }
 
-function setName($connection, $email) {
-    // TODO: set name and timestamp
-    // maybe do the discord stuff here or when calling
+function hasDiscordAccount($connection, $email) {
+    $result = mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"");
+    if (!$result) {
+        die("email $email not found in the database!");
+    }
+    $result = $result->fetch_array();
+    return !is_null($result['discord']);
+}
+
+function updateRecord($connection, $email, $name, $discord) {
+    $now = time();
+    $result = mysqli_query($connection, "UPDATE users2027 SET discord=$discord, name=\"$name\", timestamp=$now WHERE email=\"$email\"");
+    if (!$result) {
+        die("query failed! please report to 2027discordadmin@mit.edu or DM TO CONTACT STAFF");
+    }
 }
 
 function redirect($url) {
@@ -96,6 +108,5 @@ if (!function_exists('str_contains')) {
         return $needle !== '' && mb_strpos($haystack, $needle) !== false;
     }
 }
-
 
 ?>

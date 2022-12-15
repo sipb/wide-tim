@@ -48,6 +48,7 @@ if (isset($email) && isset($_REQUEST['password'])) {
         redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=$email&emailauth=" . hashify($email));
     } else {
         /// TODO: make this pretty and add a <p class="error"> along with the user/password fields
+        /// or literally anything that is just not empty whiteness
         die("wrong username/password! please click the back button of your browser and fix it.");
     }
 }
@@ -76,7 +77,18 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
 if (isset($_REQUEST['name'])) {
-    die('we have the name ' . $_REQUEST['name'] . ' and everything else we need to verify. TODO: finish the code');
+    // TODO: check that this all works fine. it's the most crucial part of everything
+    $name = $_REQUEST['name'];
+    $discord = $_REQUEST['id'];
+    if (hasDiscordAccount($connection, $email)) {
+        die('You already have a Discord account associated with this email address. Please contact staff at 2027discordadmin@mit.edu or DM TO CONTACT STAFF to fix this.');
+    }
+    updateRecord($connection, $email, $_REQUEST['name'], $discord);
+    $discord->RunAPI("PUT", "guilds/$server/members/$discord/roles/$role", array(), array(), 204);
+    echo "<p>You have been given the adMIT role!</p>";
+    // TODO: check nickname setting works
+    // https://discord.com/developers/docs/resources/guild#modify-current-member perhaps
+    $discord->RunAPI("PATCH", "guilds/$server;/members/$discord/nick/$role", array(), array(), 204);
 } else if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
 
