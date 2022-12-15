@@ -77,7 +77,6 @@ if (isset($_REQUEST['name'])) {
     <p>Once you confirm your name, your Discord name on the server will be set to it.</p>
     <form method="post">
         <input type="text" id="name" required name="name" value="<?= getName($connection, $email) ?>">
-        <br>
         <input class="button singlebutton" type="submit" id="btn_yes" value="Finish verification">
     </form>
 <?php
