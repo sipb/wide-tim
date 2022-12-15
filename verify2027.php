@@ -42,7 +42,14 @@ if (isset($email) && isset($_REQUEST['password'])) {
         'user' => $email,
         'password' => $_REQUEST['password'],
     ));
-    die($result);
+    /// TODO: do some actual XML parsing
+    /// what if someone makes a mitadmissions.org account and puts the word SUCCESS on the email address?
+    if (str_contains($result, '<status>SUCCESS</status>') && str_contains($result, $email)) {
+        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=$email&emailauth=" . hashify($email));
+    } else {
+        /// TODO: make this pretty and add a <p class="error"> along with the user/password fields
+        die("wrong username/password! please click the back button of your browser and fix it.");
+    }
 }
 
 ?>
