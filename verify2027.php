@@ -94,12 +94,12 @@ if (isset($_REQUEST['name'])) {
 
 ?>
     <h1>One more thing!</h1>
-    <p><strong>Is the name we have on file correct?</strong></p>
-    <p>This is the preferred name you set on your application.</p>
-    <p>We do expect everyone in the server to use a name they might be known as at MIT; it's much better once you come to campus for CPW!</p>
-    <p>Once you confirm your name, your Discord name on the server will be set to it.</p>
+    <h3><strong>Is the name we have on file correct?</strong></h3>
+    <h5>This is the preferred name you set on your application. We do expect everyone in the server to use a name they might be known as at MIT; it's much better once you come to campus for CPW! <br><br>Once you confirm your name, your Discord name on the server will be set to it.</h5>
+    <h5></h5>
+    <h5></h5>
     <form method="post">
-        <input type="text" id="name" required name="name" value="<?= getName($connection, $email) ?>">
+        <input type="text" id="name" placeholder="Enter full name here" required name="name" value="<?= getName($connection, $email) ?>">
         <input class="button singlebutton" type="submit" id="btn_yes" value="Finish verification">
     </form>
 <?php
