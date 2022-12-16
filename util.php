@@ -82,8 +82,7 @@ function updateRecord($connection, $email, $name, $discord) {
     $now = time();
     $stmt = mysqli_prepare($connection, "UPDATE users2027 SET discord=?, name=?, timestamp=? WHERE email=?");
     $stmt->bind_param("ssis", $discord, $name, $now, $email);
-    $stmt->execute();
-    if (!$stmt->get_result()) {
+    if (!$stmt->execute()) {
         die("query failed! please report to 2027discordadmin@mit.edu or DM TO CONTACT STAFF");
     }
 }
