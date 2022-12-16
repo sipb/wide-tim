@@ -50,35 +50,40 @@ function sendVerificationEmail($email) {
   return sendEmail($email, 'Verify your email for 2027 Discord', $email_content);
 }
 
-/// Ideally, change it to use mysqli_prepare like so https://www.php.net/manual/en/mysqli.quickstart.prepared-statements.php
-/// Since I am already sanitizing the email it should not be vulnerable to SQL injection
+function getRecordByEmail($connection, $email) {
+    $stmt = mysqli_prepare($connection, "SELECT * FROM users2027 where email=?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
+function getPropertyByEmail($connection, $email, $property) {
+    $result = getRecordByEmail($connection, $email);
+    if (!$result) {
+        die("email $email not found in the database!");
+    }
+    $result = $result->fetch_array();
+    return $result[$property];
+}
 
 function isAdmit($connection, $email) {
-    return mysqli_num_rows(mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"")) > 0;
+    return getRecordByEmail($connection, $email)->num_rows > 0;
 }
 
 function getName($connection, $email) {
-    $result = mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"");
-    if (!$result) {
-        die("email $email not found in the database!");
-    }
-    $result = $result->fetch_array();
-    return $result['name'];
+    return getPropertyByEmail($connection, $email, 'name');
 }
 
 function hasDiscordAccount($connection, $email) {
-    $result = mysqli_query($connection, "SELECT * FROM users2027 where email=\"$email\"");
-    if (!$result) {
-        die("email $email not found in the database!");
-    }
-    $result = $result->fetch_array();
-    return !is_null($result['discord']);
+    return getPropertyByEmail($connection, $email, 'discord');
 }
 
 function updateRecord($connection, $email, $name, $discord) {
     $now = time();
-    $result = mysqli_query($connection, "UPDATE users2027 SET discord=$discord, name=\"$name\", timestamp=$now WHERE email=\"$email\"");
-    if (!$result) {
+    $stmt = mysqli_prepare($connection, "UPDATE users2027 SET discord=?, name=?, timestamp=? WHERE email=?");
+    $stmt->bind_param("ssis", $discord, $name, $now, $email);
+    $stmt->execute();
+    if (!$stmt->get_result()) {
         die("query failed! please report to 2027discordadmin@mit.edu or DM TO CONTACT STAFF");
     }
 }
