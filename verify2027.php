@@ -107,7 +107,7 @@ if (isset($_REQUEST['name'])) {
     $result = sendVerificationEmail($email);
     if ($result) {
 ?>
-    <p>Verification email has been sent to <?= $email ?>. It may take a few moments to arrive (or end up in spam).</p>
+    <p>Verification email has been sent to <?= $email ?>. The email should come relatively quickly (unless you're using Yahoo, for some reason), so if you don't see it soon, make sure you are using the right email from your MIT application and check your spam..</p>
 <?php
     } else {
 ?>
