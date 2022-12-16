@@ -21,8 +21,8 @@ npm install
 Next, add your Discord bot token to `token.txt` and a random string to `pepper.txt`.
 
 ```
-echo "INSERT_BOT_TOKEN_HERE" >> token.txt
-echo "INSERT_RANDOM_STRING_HERE" >> pepper.txt
+printf "INSERT_BOT_TOKEN_HERE" >> token.txt
+printf "INSERT_RANDOM_STRING_HERE" >> pepper.txt
 ```
 
 Finally, run the bot.
