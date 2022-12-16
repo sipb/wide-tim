@@ -88,7 +88,7 @@ if (isset($_REQUEST['name'])) {
     echo "<p>You have been given the adMIT role!</p>";
     // TODO: check nickname setting works
     // https://discord.com/developers/docs/resources/guild#modify-current-member perhaps
-    $discord->RunAPI("PATCH", "guilds/$server;/members/$id/nick/$role", array(), array(), 204);
+    $discord->RunAPI("PATCH", "guilds/$server/members/$id", array(), array("nick"=>$name), 204);
 } else if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
 
