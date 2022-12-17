@@ -77,7 +77,9 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
 if (isset($_REQUEST['name'])) {
-    $name = $_REQUEST['name'];
+    /// workaround special characters failing.
+    /// TODO/NOTE: this function is deprecated, so figure out how to default to utf-8 instead
+    $name = utf8_encode($_REQUEST['name']);
     $id = $_REQUEST['id'];
     if (hasDiscordAccount($connection, $email)) {
         die('You already have a Discord account associated with this email address. Please contact staff at 2027discordadmin@mit.edu or DM TO CONTACT STAFF to fix this.');
