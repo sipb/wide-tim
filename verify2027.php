@@ -69,9 +69,9 @@ if (isset($email) && isset($_REQUEST['password'])) {
 <?php
 
 /// Check for kerb
-if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
-    die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.<br>If you need help, email 2027discordadmin@mit.edu');
-}
+// if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
+//     die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.<br>If you need help, email 2027discordadmin@mit.edu');
+// }
 
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
