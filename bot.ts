@@ -19,6 +19,23 @@ client.once(Events.ClientReady, c => {
     for (const module of modules) {
         require('./' + module).setup(client, config);
     }
+
+    // create slash command
+
+    const guild = client.guilds.cache.get(config.guild_2027);
+    let commands;
+
+    if (guild) {
+        commands = guild.commands;
+    } else {
+        commands = client.application?.commands;
+    }
+
+    commands?.create({
+        name: 'verify',
+        description: 'sends verification DM'
+    })
+
     console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
