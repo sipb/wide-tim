@@ -77,7 +77,6 @@ if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
 authenticate(intval($_REQUEST['id']), $_REQUEST['auth'], 'Discord');
 
 if (isset($_REQUEST['name'])) {
-    // TODO: check that this all works fine. it's the most crucial part of everything
     $name = $_REQUEST['name'];
     $id = $_REQUEST['id'];
     if (hasDiscordAccount($connection, $email)) {
@@ -85,10 +84,9 @@ if (isset($_REQUEST['name'])) {
     }
     updateRecord($connection, $email, $_REQUEST['name'], $id);
     $discord->RunAPI("PUT", "guilds/$server/members/$id/roles/$role", array(), array(), 204);
-    echo "<p>You have been given the adMIT role!</p>";
-    // TODO: check nickname setting works
-    // https://discord.com/developers/docs/resources/guild#modify-current-member perhaps
-    $discord->RunAPI("PATCH", "guilds/$server/members/$id", array(), array("nick"=>$name), 204);
+    /// NOTE: this requires a change in the SDK. see https://github.com/cubiclesoft/php-discord-sdk/issues/4
+    $discord->RunAPI("PATCH", "guilds/$server/members/$id", array("nick"=>$name), array(), 204);
+    echo "<p>You have been successfully verified and you can now use the server!</p>";
 } else if (isset($_REQUEST['emailauth']) && !isset($_REQUEST['email_invalid'])) {
     authenticate($email, $_REQUEST['emailauth'], 'E-mail');
 
