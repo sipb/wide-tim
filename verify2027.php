@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 require "constants.php";
 
 /// Hardcoded for now
+$baseurl = 'https://discord2027.mit.edu';
 $server = '1049418013323055124';
 $role = '1050870099667603466';
 
@@ -32,7 +33,7 @@ if (isset($_REQUEST['email'])) {
 if (isset($email) && !isset($_REQUEST['email_invalid'])) {
     /// This should not be vulnerable because PHP is short-circuited
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !isAdmit($connection, $email)) {
-        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email_invalid=true");
+        redirect("$baseurl$_SERVER[REQUEST_URI]&email_invalid=true");
     }
 }
 
@@ -45,7 +46,7 @@ if (isset($email) && isset($_REQUEST['password'])) {
     /// TODO: do some actual XML parsing
     /// what if someone makes a mitadmissions.org account and puts the word SUCCESS on the email address?
     if (str_contains($result, '<status>SUCCESS</status>') && str_contains($result, $email)) {
-        redirect("https://discord2027.mit.edu$_SERVER[REQUEST_URI]&email=$email&emailauth=" . hashify($email));
+        redirect("$baseurl$_SERVER[REQUEST_URI]&email=$email&emailauth=" . hashify($email));
     } else {
         /// TODO: make this pretty and add a <p class="error"> along with the user/password fields
         /// or literally anything that is just not empty whiteness
