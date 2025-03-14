@@ -9,9 +9,9 @@ error_reporting(E_ALL);
 require "constants.php";
 
 /// Hardcoded for now
-$baseurl = 'https://discord2027.mit.edu';
-$server = '1049418013323055124';
-$role = '1050870099667603466';
+$baseurl = 'https://discord.scripts.mit.edu';
+$server = '1350137441062883469';
+$role = '1350137545362767882';
 
 // SQL stuff
 $connection = mysqli_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD, SQL_DB);
