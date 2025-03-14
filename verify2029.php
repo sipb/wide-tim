@@ -132,7 +132,7 @@ if (isset($_REQUEST['name'])) {
 <?php
 } else {
 ?>
-    <h1>2027 Discord verification</h1>
+    <h1>2029 Discord verification</h1>
         <form method="get">
         <p>Hello! To verify that you're an adMIT, please enter the email that you used in your application portal.</p>
         <?= isset($_GET['email_invalid']) ? '<p class="error">You entered an invalid email, please try again! Check for any typos, and make sure you are using the same email as your MIT Admissions portal.</p>' : '' ?>
