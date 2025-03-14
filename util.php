@@ -30,7 +30,7 @@ function sendEmail($recipient, $subject, $content) {
     $mail->SMTPAuth = false;
     $mail->Port = 25;
     // Add Details
-    $mail->setFrom('2027discordadmin@mit.edu', 'Wide Tim');
+    $mail->setFrom('2029discordadmin@mit.edu', 'Wide Tim');
     $mail->addAddress($recipient);
     $mail->isHTML(false);
     $mail->Subject = $subject;
@@ -47,11 +47,11 @@ function sendEmail($recipient, $subject, $content) {
 
 function sendVerificationEmail($email) {
   $email_content = "Hello!\n\nTo verify your email address, please click on the following link:\n\n$baseurl$_SERVER[REQUEST_URI]&emailauth=" . hashify($email) . "\n\nBest,\nWide Tim";
-  return sendEmail($email, 'Verify your email for 2027 Discord', $email_content);
+  return sendEmail($email, 'Verify your email for 2029 Discord', $email_content);
 }
 
 function getRecordByEmail($connection, $email) {
-    $stmt = mysqli_prepare($connection, "SELECT * FROM users2027 where email=?");
+    $stmt = mysqli_prepare($connection, "SELECT * FROM users2029 where email=?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     return $stmt->get_result();
@@ -80,10 +80,10 @@ function hasDiscordAccount($connection, $email) {
 
 function updateRecord($connection, $email, $name, $discord) {
     $now = time();
-    $stmt = mysqli_prepare($connection, "UPDATE users2027 SET discord=?, name=?, timestamp=? WHERE email=?");
+    $stmt = mysqli_prepare($connection, "UPDATE users2029 SET discord=?, name=?, timestamp=? WHERE email=?");
     $stmt->bind_param("ssis", $discord, $name, $now, $email);
     if (!$stmt->execute()) {
-        die("query failed! please report to 2027discordadmin@mit.edu or DM TO CONTACT STAFF");
+        die("query failed! please report to 2029discordadmin@mit.edu or DM TO CONTACT STAFF");
     }
 }
 

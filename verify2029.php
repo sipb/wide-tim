@@ -71,7 +71,7 @@ if (isset($email) && isset($_REQUEST['password'])) {
 
 /// Check for kerb
 // if (isset($_SERVER['SSL_CLIENT_S_DN_Email'])) {
-//     die('You have a kerb: kerb verification will be added on May 1 for 2027s. If you are not a 2027, you should get verified by the admins instead.<br>If you need help, email 2027discordadmin@mit.edu');
+//     die('You have a kerb: kerb verification will be added on May 1 for 2029s. If you are not a 2029, you should get verified by the admins instead.<br>If you need help, email 2029discordadmin@mit.edu');
 // }
 
 /// Authenticate Discord member (make sure they came from clicking the link, and therefore own the account)
@@ -83,7 +83,7 @@ if (isset($_REQUEST['name'])) {
     $name = utf8_encode($_REQUEST['name']);
     $id = $_REQUEST['id'];
     if (hasDiscordAccount($connection, $email)) {
-        die('You already have a Discord account associated with this email address. Please contact staff at 2027discordadmin@mit.edu or DM TO CONTACT STAFF to fix this.');
+        die('You already have a Discord account associated with this email address. Please contact staff at 2029discordadmin@mit.edu or DM TO CONTACT STAFF to fix this.');
     }
     updateRecord($connection, $email, $_REQUEST['name'], $id);
     $discord->RunAPI("PUT", "guilds/$server/members/$id/roles/$role", array(), array(), 204);
@@ -112,7 +112,7 @@ if (isset($_REQUEST['name'])) {
 <?php
     } else {
 ?>
-    <p class="error">There was an error sending the verification email. Please report this to 2027discordadmin@mit.edu</p>
+    <p class="error">There was an error sending the verification email. Please report this to 2029discordadmin@mit.edu</p>
 <?php
     }
 ?>
