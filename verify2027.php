@@ -83,7 +83,7 @@ if (isset($_REQUEST['name'])) {
     $name = utf8_encode($_REQUEST['name']);
     $id = $_REQUEST['id'];
     if (hasDiscordAccount($connection, $email)) {
-        die('You already have a Discord account associated with this email address. Please contact staff at 2027discordadmin@mit.edu or DM TO CONTACT STAFF to fix this.');
+        die('You already have a Discord account associated with this email address. Please contact staff at 2027discordadmin@mit.edu or open a ticket to fix this.');
     }
     updateRecord($connection, $email, $_REQUEST['name'], $id);
     $discord->RunAPI("PUT", "guilds/$server/members/$id/roles/$role", array(), array(), 204);
