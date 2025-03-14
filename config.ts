@@ -5,8 +5,8 @@ export = {
     /// and make it configurable with slash commands instead
     /// of fixed manually edited configuration files
     
-    guild_2027: '1049418013323055124',
-    admitted_role_2027: '1050870099667603466',
+    guild_2029: '1350137441062883469',
+    admitted_role_2029: '1350137545362767882',
     post_verification_dm: `Hooray! You have been successfully verified, and I love your name. You should now be able to see a bunch of channels. Say hello! 
 
 If you're new to Discord, or just want some help finding your way around, we wrote these for you: 

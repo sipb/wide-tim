@@ -22,7 +22,7 @@ client.once(Events.ClientReady, c => {
 
     // create slash command
 
-    const guild = client.guilds.cache.get(config.guild_2027);
+    const guild = client.guilds.cache.get(config.guild_2029);
     let commands;
 
     if (guild) {
@@ -41,9 +41,9 @@ client.once(Events.ClientReady, c => {
 
 /// DM after successful verification
 client.on(Events.GuildMemberUpdate, (oldMember, newMember) => {
-    const guild = client.guilds.cache.get(config.guild_2027);
+    const guild = client.guilds.cache.get(config.guild_2029);
     const wasGivenRole = (role: Snowflake) => !oldMember.roles.cache.get(role) && newMember.roles.cache.get(role);
-    if (newMember.guild == guild && wasGivenRole(config.admitted_role_2027)) {
+    if (newMember.guild == guild && wasGivenRole(config.admitted_role_2029)) {
         newMember.send(config.post_verification_dm);
     }
 });
