@@ -8,14 +8,16 @@ const get2029VerifyLink = (id: string) => {
     return `https://discord.scripts.mit.edu/verify2029.php?id=${id}&auth=${sha256(`${pepper}:${id}`)}`;
 }
 
+const welcomeMessage = (id: string) => `Hi! I am Wide Tim, the most massive member of the 2029 Discord. I use my large arms to hold off people who shouldn't be here and to hug people who should, and I have lumbered into your DMs to help with that.
+
+In order to prove you are an adMITted member of the Class of 2029, and in need of hugs, please go to ${get2029VerifyLink(id)} to verify your account using your email address. 
+
+Once you have done that, I will then use all my considerable strength to yeet you into the server with the other adMITs where you belong. If, for some reason, you have continued trouble gaining access to the server, send an email to 2029discordadmin@mit.edu for assistance.`;
+
 const setup = (client: Client, config: any) => {
     client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
         try {
-            await member.send(`Hi! I am Wide Tim, the most massive member of the 2029 Discord. I use my large arms to hold off people who shouldn't be here and to hug people who should, and I have lumbered into your DMs to help with that.
-
-In order to prove you are an adMITted member of the Class of 2029, and in need of hugs, please go to ${get2029VerifyLink(member.id)} to verify your account using your email address. 
-
-Once you have done that, I will then use all my considerable strength to yeet you into the server with the other adMITs where you belong. If, for some reason, you have continued trouble gaining access to the server, send an email to 2029discordadmin@mit.edu for assistance.`);
+            await member.send(welcomeMessage(member.id));
         } catch (err) {
             console.log(`Could not send verification DM to ${member.user.tag}: ${err}`);
         }
@@ -26,12 +28,7 @@ Once you have done that, I will then use all my considerable strength to yeet yo
 
         if ((interaction as CommandInteraction).commandName == 'verify') {
             try {
-                await (interaction.member as GuildMember).send(`Hi! I am Wide Tim, the most massive member of the 2029 Discord. I use my large arms to hold off people who shouldn't be here and to hug people who should, and I have lumbered into your DMs to help with that.
-
-In order to prove you are an adMITted member of the Class of 2029, and in need of hugs, please go to ${get2029VerifyLink((interaction.member as GuildMember).id)} to verify your account using your email address. 
-
-Once you have done that, I will then use all my considerable strength to yeet you into the server with the other adMITs where you belong. If, for some reason, you have continued trouble gaining access to the server, send an email to 2029discordadmin@mit.edu for assistance.`);
-
+                await (interaction.member as GuildMember).send(welcomeMessage((interaction.member as GuildMember).id));
                 (interaction as CommandInteraction).reply({
                     content: 'Check your DMs for the verification link and instructions!',
                     ephemeral: true,
