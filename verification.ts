@@ -5,7 +5,7 @@ import { sha256 } from 'js-sha256';
 const pepper = readFileSync('pepper.txt', 'utf-8');
 
 const get2029VerifyLink = (id: string) => {
-    return `https://discord.mit.edu/verify2029.php?id=${id}&auth=${sha256(`${pepper}:${id}`)}`;
+    return `https://discord.scripts.mit.edu/verify2029.php?id=${id}&auth=${sha256(`${pepper}:${id}`)}`;
 }
 
 const setup = (client: Client, config: any) => {
