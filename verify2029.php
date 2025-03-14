@@ -11,7 +11,7 @@ require "constants.php";
 /// Hardcoded for now
 $baseurl = 'https://discord.scripts.mit.edu';
 $server = '1316516420183396456';
-$role = '1316520803755622400';
+$role = '1350162193177383042';
 
 // SQL stuff
 $connection = mysqli_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD, SQL_DB);
